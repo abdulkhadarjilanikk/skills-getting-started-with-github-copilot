@@ -38,43 +38,44 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
-    },
-    "Basketball Team": {
-        "description": "Practice teamwork and compete in inter-school basketball games",
-        "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
-        "max_participants": 18,
-        "participants": ["liam@mergington.edu"]
-    },
-    "Swim Club": {
-        "description": "Swim training, conditioning, and friendly swim meets",
-        "schedule": "Wednesdays and Fridays, 3:30 PM - 5:00 PM",
-        "max_participants": 20,
-        "participants": ["ava@mergington.edu"]
-    },
-    "Drama Club": {
-        "description": "Rehearse scenes, learn acting skills, and perform stage plays",
-        "schedule": "Mondays and Thursdays, 3:30 PM - 5:00 PM",
-        "max_participants": 25,
-        "participants": ["noah@mergington.edu"]
-    },
-    "Photography Workshop": {
-        "description": "Explore photography techniques and create a visual portfolio",
-        "schedule": "Saturdays, 10:00 AM - 12:00 PM",
-        "max_participants": 15,
-        "participants": ["mia@mergington.edu"]
-    },
-    "Science Olympiad": {
-        "description": "Prepare for science competitions with hands-on experiments and challenges",
-        "schedule": "Wednesdays, 4:00 PM - 5:30 PM",
-        "max_participants": 16,
-        "participants": ["lucas@mergington.edu"]
-    },
-    "Debate Society": {
-        "description": "Develop public speaking, research, and argumentation skills",
-        "schedule": "Tuesdays, 4:00 PM - 5:30 PM",
-        "max_participants": 20,
-        "participants": ["emma@mergington.edu"]
     }
+    ,
+    "Volleyball Team": {
+            "description": "Team practices and competitive matches in the school league",
+            "schedule": "Mondays and Wednesdays, 4:00 PM - 5:30 PM",
+            "max_participants": 16,
+            "participants": ["isabella@mergington.edu"]
+        },
+        "Track and Field": {
+            "description": "Conditioning, sprinting, and field events practice",
+            "schedule": "Fridays, 3:30 PM - 5:00 PM",
+            "max_participants": 24,
+            "participants": ["oliver@mergington.edu"]
+        },
+        "Ceramics Club": {
+            "description": "Learn hand-building and wheel-throwing techniques",
+            "schedule": "Tuesdays, 3:30 PM - 5:00 PM",
+            "max_participants": 12,
+            "participants": ["amelia@mergington.edu"]
+        },
+        "Music Ensemble": {
+            "description": "Group rehearsals for choir and instrumental ensembles",
+            "schedule": "Thursdays, 4:00 PM - 5:30 PM",
+            "max_participants": 30,
+            "participants": ["elijah@mergington.edu"]
+        },
+        "Math Club": {
+            "description": "Problem solving, math contests preparation, and puzzles",
+            "schedule": "Mondays, 4:00 PM - 5:30 PM",
+            "max_participants": 20,
+            "participants": ["chloe@mergington.edu"]
+        },
+        "Literary Magazine": {
+            "description": "Write, edit, and publish student poetry, fiction, and essays",
+            "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+            "max_participants": 10,
+            "participants": ["benjamin@mergington.edu"]
+        }
 }
 
 
@@ -98,9 +99,14 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already registered for this activity")
+
+    # Validate capacity
+    if len(activity["participants"]) >= activity["max_participants"]:
+        raise HTTPException(status_code=400, detail="Activity is full")
+
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
-   # Validate student is not already signed up
-    if student_name in activity["participants"]:
-      return False
